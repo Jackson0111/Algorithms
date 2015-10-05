@@ -1,0 +1,141 @@
+Merge Sort Algorithm
+CS1501 – Algorithms Implementation
+University of Pittsburgh
+September 19th, 2015
+Abstract –Sorting algorithms such as Bubble Sort and Insertion Sort both have a quadratic
+time complexity, which is not optimal in practice if a set of data is very big. Search engines
+like Google and Bing would be less efficient if an inefficient sorting algorithm was used. In
+this paper, we introduce a new sorting approach, Merge Sort, a divide-and-conquer
+algorithm to sort a collection of elements. We explain the advantages of Merge Sort that
+other sorting algorithms cannot offer in terms of simplicity of implementation and
+asymptotic runtime. On the other hand, we also demonstrate some tradeoffs of in the use
+of Merge Sort. Further, we discuss the improvements that could be taken into consideration
+for future development of Merge Sort implementation.
+1. INTRODUCTION AND RELATED WORK
+1.1 Bubble Sort – Bubble Sort rearranges the elements in a given array in ascending or
+descending order. This particular algorithm compares two adjacent elements at a time. If
+the order is incorrect, swapping the two elements occurs, and then another comparison to
+the next element is performed. The above steps are continuously performed until the end
+of the array is reached. Once the iteration is finished, we reset the index to zero to begin
+another iteration and keep doing so until the entire array is sorted. Bubble Sort is one of
+the simplest sorting algorithms because it is easy to implement and understand, which is
+quite useful if the number of elements is small. However, Bubble Sort is by no means a very
+efficient or fast sorting algorithm. Its average runtime is Big O of n2 in the worst case
+because we have to make n iterations through a list checking all n elements each pass-
+JW0111 - CS1501W - A1D1. Page 1 of 6
+through. Hence, n*n is n2. This runtime means that as the n number of elements increases,
+the runtime of Bubble Sort increases quadratically. If search engines like Google were using
+this sorting algorithm, we would not be able to find anything because the data is too big.
+1.2 Insertion Sort – Another common sorting algorithm is Insertion Sort, a sorting
+algorithm that divides a given array into two portions: a sorted portion and an unsorted
+portion. The sorted portion is fully sorted at all times. We begin to iterate the array from
+the second number, since the first number in the unsorted portion simply becomes the first
+number in the sorted portion. At each step of the algorithm, an element is moved from the
+unsorted portion to its proper position in the sorted portion until the entire array is sorted.
+Insertion Sort has an average runtime of Big O of n2 because the algorithm has to iterate
+over elements in the unsorted portion, and for each of those elements, potentially over all
+elements in the sorted portion.
+Although Insertion Sort and Bubble Sort have the same worst-case and average runtime
+(Big O of n2), Insertion Sort does in fact perform better in practice, and also interacts well
+with modern CPU hardware. However, its runtime of Big O of n2 is still not optimal.
+1.3 Other Sorting Algorithms – Besides Bubble Sort and Insertion Sort, some other
+sorting algorithms also have average runtime of Big O of n2 such as Selection Sort, or even
+worse, such as Shell Sort. We need a better algorithm to sort a large collection of data in
+less time. In the next section, we introduce a new sorting algorithm, Merge Sort, which has
+the time complexity of Big O of n*log (n). It is mathematically proved that there cannot be a
+sorting algorithm that performs better than Big O of n*log (n) in the general case.
+2. MERGE SORT ANALYSIS
+JW0111 - CS1501W - A1D1. Page 2 of 6
+2.1 Overview – Merge Sort is used to sort a collection of elements. It is also called divideand-
+conquer algorithm, because its fundamental approach is dividing a given array into
+smaller collections of data to recursively sort them. Once each small set of data is sorted,
+merging all the subsets into one array is performed by comparing the first element of each
+array every time.
+2.2 Implementation – Merge Sort could be implemented in lots of different ways.
+However, the fundamental method is using recursion, because the algorithm has a similar
+structure as a tree. The original array needs to be recursively divided into small partitions
+then merged back together once sorting is finished. For example, an unsorted array
+containing ten numbers is given. First, we mark the leftmost and rightmost indexes to
+calculate the middle index. After dividing the entire array into two parts, left half and right
+half, we simply find the rightmost index in the first half, and the leftmost index in the
+second half. Therefore, we can calculate the middle indexes of the two sub arrays. Then, we
+divide the sub arrays into even smaller partitions using the same strategy until only one
+element is remaining. By calling another sorting method every round within recursion, we
+are able to sort all sub arrays and merge them back to the original one. The merging step is
+more important than dividing in the implementation of Merge Sort, as well as any type of
+divide-and-conquer algorithms. When two sub arrays are sorted, in order to merge them
+into one array without losing the correct order, we need to make many comparisons
+starting from the very first element in each sub arrays then push the larger or smaller
+element up to the bigger array until all elements are added. For example, we are given two
+sorted sub arrays A and B, and to combine them in ascending order. A contains three
+numbers: 1, 3, and 5, and B contains another three numbers: 2, 4, and 6. A and B are both
+JW0111 - CS1501W - A1D1. Page 3 of 6
+sorted but when we merge them together, every number in each sub array needs to be
+compared with the numbers from the other sub array. We start with comparing 1 and 2,
+because 1 is smaller than 2, we add 1 to the big array as the first element. Now A has two
+numbers remaining, which are 3 and 5. We compare 3 with 2, because 2 is smaller than 3,
+it’s added right next to 1, as the second element. Now B has two numbers remaining. We
+repeat the comparison, and then 3 is added after 2, 4 is added after 3, 5 is added after 4,
+and finally 6 is added after 5. At this point, two sub arrays are empty which means that all
+the numbers have been merged back to the original array – 1, 2, 3, 4, 5, 6. Generally, every
+divide-and-conquer algorithm follows recursion principles. However, it can be
+implemented with an iterative solution as well.
+2.3 Time Complexity – Merge Sort has an average time complexity of Big O of n*log (n). In
+order to present how much faster Merge Sort is in comparison to Bubble Sort and Insertion
+Sort, we implemented all three algorithms and used them to sort a hundred thousand
+random numbers. This experiment was done on an Apple Macbook pro and the programs
+were written in Java using Eclipse. To reduce experimental errors as much as possible, we
+terminated all running user programs so that the kernel had more control over the time
+scheduler. Besides that, we also ran each program seven times to ensure to receive an
+accurate average runtime. To ensure that the biased data does not affect our results, we
+removed the highest and lowest numbers in each group of results for all three algorithms,
+the final results of average runtime are shown: Bubble Sort – 24.1469 seconds, Insertion
+Sort – 6.2168 seconds, and Merge Sort – 0.859876 seconds.
+JW0111 - CS1501W - A1D1. Page 4 of 6
+From the data, we can conclude that Merge Sort has an average runtime that’s
+approximately six times faster than Insertion Sort, and twenty four times faster than
+Bubble Sort.
+Is this always true? Could the results change, as the number of elements gets larger? We
+purposely changed the amount of randomly generated numbers to two hundred thousand,
+three hundred thousand, four hundred thousand and five hundred thousand. And then,
+using the same strategies, the algorithms were tested respectively again. Eventually, the
+results show that the more numbers to be sorted, the faster Merge Sort is compared to the
+other two algorithms. Hence, we can conclude that no matter how large the input is, Merge
+Sort is always faster and more stable in all cases.
+3. TRADE OFFs
+3.1 Review – Merge Sort is easy to implement and faster than plenty of other sorting
+algorithms with even better stabilities. Its time complexity is always guaranteed to be Big O
+of n*log (n), even in the worst case. Merge Sort is generally highly useful for sorting slowaccess
+data, such as hard disk, as well as data that is accessed sequentially, such as linked
+lists. On the other hand though, it does indeed have some disadvantages that we might or
+might not be able to improve. In this section, we consider the trade offs that Merge Sort
+brings to us along with its outstanding performance.
+3.1 Space Complexity – Merge Sort is considered an external sorting algorithm, which
+means that it needs extra space to handle the sort. In many cases, if the list is N long, it will
+need 2*N memory space to perform. This is because another array with the same length is
+always created to divide and merge.
+JW0111 - CS1501W - A1D1. Page 5 of 6
+Using recursion to implement Merge Sort is simple and easy to code from a programmer’s
+point of view, but this could also be a disadvantage. Recursion requires lots of stack
+memory. Given that Merge Sort already needs external space because of the out-of-place
+principle, using recursion to implement this algorithm will definitely cause more problems.
+3.2 Special Cases – Even though Merge Sort is much faster than Bubble Sort and Insertion
+Sort in average case, in some special cases it’s actually slower. If the input data is almost
+sorted, Bubble Sort and Insertion Sort are faster because their runtime in best case is Big O
+of n, while Merge Sort has a runtime of Big O of n*log (n) in all cases.
+4. IMPROVEMENTS
+In this section, we introduce some improvements that could be done to fix certain specific
+issues mentioned in section three.
+4.1 Stack Overflow Issue – To reduce or avoid the issue of stack overflow because of the
+use of recursion, we could simply choose to implement Merge Sort iteratively. By switching
+to the iteration solution, we can somewhat successfully prevent stack from growing too fast
+towards the heap.
+4.2 Data Input Issue – As we mentioned before, data input has a big impact on Merge Sort
+Performance. If the data is nearly sorted, other sorting algorithms such as Bubble Sort and
+Insertion Sort will have benefits over Merge Sort. We need to be careful with data input
+before using Merge Sort.
+4.3 Comparison-Based Algorithms –Merge Sort is a comparison-based sorting algorithm,
+which means that they can be slower than non-comparison algorithms that sort data in
+linear time, such as Radix Sort. It would be the better if we could afford to use noncomparison
+algorithms.
+JW0111 - CS1501W - A1D1. Page 6 of 6
